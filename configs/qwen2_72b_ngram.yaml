@@ -1,0 +1,20 @@
+# Qwen2-72B-Instruct with N-gram Self-Drafting Speculative Decoding
+model: Qwen/Qwen2-72B-Instruct
+
+speculative_decoding:
+  enabled: true
+  model: "[ngram]"  # Self-drafting using n-gram matching from prompt
+  num_tokens: 5
+  ngram_prompt_lookup_max: 4  # Maximum n-gram length to match
+
+generation:
+  max_tokens: 512
+  temperature: 0.7
+  top_p: 1.0
+  top_k: -1
+
+engine:
+  tensor_parallel_size: 1  # Adjust based on available GPUs
+  gpu_memory_utilization: 0.75  # Reduced for speculative decoding overhead
+  max_model_len: 8192  # Reduced to save memory
+  trust_remote_code: false

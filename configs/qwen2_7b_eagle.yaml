@@ -1,0 +1,23 @@
+# Qwen2-7B-Instruct with EAGLE Self-Drafting Speculative Decoding
+# Note: Requires converting EAGLE model first using conversion script
+# See: https://gist.github.com/abhigoyal1997/1e7a4109ccb7704fbc67f625e86b2d6d
+# Base EAGLE model: yuhuili/EAGLE-Qwen2-7B-Instruct
+
+model: Qwen/Qwen2-7B-Instruct
+
+speculative_decoding:
+  enabled: true
+  model: "path/to/converted/EAGLE-Qwen2-7B-Instruct"  # Update with converted model path
+  num_tokens: 5
+  draft_tensor_parallel_size: 1  # EAGLE draft models must use TP=1
+
+generation:
+  max_tokens: 512
+  temperature: 0.7
+  top_p: 1.0
+  top_k: -1
+
+engine:
+  tensor_parallel_size: 1
+  gpu_memory_utilization: 0.9
+  trust_remote_code: false

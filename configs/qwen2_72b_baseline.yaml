@@ -1,0 +1,13 @@
+# Qwen2-72B-Instruct Baseline (no speculative decoding)
+model: Qwen/Qwen2-72B-Instruct
+
+generation:
+  max_tokens: 512
+  temperature: 0.7
+  top_p: 1.0
+  top_k: -1
+
+engine:
+  tensor_parallel_size: 1  # Adjust based on available GPUs
+  gpu_memory_utilization: 0.9
+  trust_remote_code: false

@@ -1,0 +1,24 @@
+# Llama3.1-8B-Instruct with EAGLE3 Self-Drafting Speculative Decoding
+# EAGLE3 drafter heads: yuhuili/EAGLE3-LLaMA3.1-Instruct-8B
+# Note: EAGLE3 models can be used directly from HuggingFace without conversion
+
+model: meta-llama/Meta-Llama-3.1-8B-Instruct
+
+speculative_decoding:
+  enabled: true
+  method: "eagle3"  # Specify EAGLE3 method
+  model: "yuhuili/EAGLE3-LLaMA3.1-Instruct-8B"  # EAGLE3 drafter heads from HuggingFace
+  num_tokens: 5  # Number of speculative tokens
+  draft_tensor_parallel_size: 1  # EAGLE3 draft models must use TP=1
+
+generation:
+  max_tokens: 512
+  temperature: 0.7
+  top_p: 1.0
+  top_k: -1
+
+engine:
+  tensor_parallel_size: 1
+  gpu_memory_utilization: 0.80  # Increased slightly, but still conservative for EAGLE3
+  max_model_len: 4096  # Reduced from 8192 to fit KV cache with EAGLE3 overhead
+  trust_remote_code: false

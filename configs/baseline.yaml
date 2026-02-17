@@ -1,0 +1,13 @@
+# Baseline configuration without speculative decoding
+model: meta-llama/Llama-2-7b-chat-hf
+
+generation:
+  max_tokens: 512
+  temperature: 0.7
+  top_p: 1.0
+  top_k: -1
+
+engine:
+  tensor_parallel_size: 1
+  gpu_memory_utilization: 0.9
+  trust_remote_code: false
