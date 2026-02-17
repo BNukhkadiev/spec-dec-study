@@ -1,5 +1,6 @@
 """Experiment runner for vLLM speculative decoding evaluation."""
 
+import subprocess
 import time
 from pathlib import Path
 from typing import Optional, Dict, Any
@@ -54,6 +55,26 @@ class ExperimentRunner:
         except Exception as e:
             print(f"Warning: Could not access tokenizer: {e}. Token counting will use estimates.")
             self.tokenizer = None
+
+        # Print GPU memory state after model load
+        try:
+            result = subprocess.run(
+                ["nvidia-smi"],
+                capture_output=True,
+                text=True,
+                timeout=10,
+            )
+            if result.returncode == 0:
+                print("\n--- GPU state after model load (nvidia-smi) ---")
+                print(result.stdout)
+            else:
+                print(f"\nWarning: nvidia-smi failed (exit {result.returncode}): {result.stderr}")
+        except FileNotFoundError:
+            print("\nWarning: nvidia-smi not found (non-CUDA environment?)")
+        except subprocess.TimeoutExpired:
+            print("\nWarning: nvidia-smi timed out")
+        except Exception as e:
+            print(f"\nWarning: Could not run nvidia-smi: {e}")
     
     def run_benchmark(
         self,
